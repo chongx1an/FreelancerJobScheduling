@@ -36,6 +36,11 @@ public abstract class AbstractDayList implements IDayList{
 		add(size, day);
 	}
  
+	/** Clear the list */
+	public void clear() {
+		
+	}
+	
 	/** Return true if this list contains no elements */
 	@Override
 	public boolean isEmpty() {
@@ -92,7 +97,7 @@ public abstract class AbstractDayList implements IDayList{
 	}
 
 	@Override
-	public Object set(int index, Day day) {
+	public Day set(int index, Day day) {
 		// TODO Auto-generated method stub
 		return null;
 	}

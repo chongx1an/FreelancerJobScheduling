@@ -43,7 +43,7 @@ public interface IDayList {
 	 
 	/** Replace the element at the specified position in this list
 	 * with the specified element and return the old element. */
-	public Object set(int index, Day day);
+	public Day set(int index, Day day);
 	 
 	/** Return the number of elements in this list */
 	public int size();

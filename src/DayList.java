@@ -105,6 +105,12 @@ public class DayList extends AbstractDayList{
 	}
 
 	@Override
+	public boolean isEmpty() {
+		return size == 0;
+	}
+	
+	
+	@Override
 	public boolean contains(Day day) {
 		for (int i = 0; i < size; i++)
 			 if (day.equals(days[i])) 
@@ -117,6 +123,11 @@ public class DayList extends AbstractDayList{
 		return days[index];
 	}
 
+	@Override
+	public int size() {
+		return size;
+	}
+	
 	@Override
 	public int indexOf(Day day) {
 		for (int i = 0; i < size; i++)
@@ -132,6 +143,8 @@ public class DayList extends AbstractDayList{
 				 return i;
 		return -1;
 	}
+	
+	
 
 
 }
