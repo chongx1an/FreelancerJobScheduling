@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -6,31 +7,43 @@ public class FreelanceJobSchedulingSystem {
 
 	public static void main(String[] args) {
 		
-		Queue<Job> jobs = createJobs();
-		DayList dayList = new DayList(35);
+		Freelancer freelancer = new Freelancer("Sunn", 35);
+		ArrayList<Job> availableJobs = createJobs();
 		
-		while(!jobs.isEmpty()) {
-			Job job = jobs.poll();
-			System.out.println(job.toString());
-			
-			if(dayList.getNumAvailableDays() >= job.getDuration()) {
-				dayList.assignJob(job);
-			}
+		int count = 1;
+		for(Job job:availableJobs) {
+			System.out.println("Iteration " + count);
+			System.out.println("==================================================================");
+			System.out.println(String.format("%-15s%-15s%-15s%-15s", "Profit", "Duration", "Deadline", "Profit Per Day"));
+			System.out.println(freelancer.scheduleJob(job));
+			System.out.println("------------------------------------------------------------------");
+			System.out.println("Total profit: " + freelancer.getTotalProfit());
+			System.out.println("==================================================================");
+			System.out.println();
+			System.out.println();
+			count++;
 		}
 		
-		System.out.println(dayList.getSchedule());
-		System.out.println(dayList.getTotalProfit());
+
 	}
 
-	public static Queue<Job> createJobs() {
-		Queue<Job> jobs = new PriorityQueue<Job>(new JobComparator());
-		int profits[] = {1000, 200, 800, 3200, 200, 3000};
+	public static ArrayList<Job> createJobs() {
+		ArrayList<Job> jobs = new ArrayList<Job>();
+		int profits[] = {1000, 200, 700, 3200, 200, 3000};
 		int days[] = {14, 7, 5, 20, 2, 1};
 		int deadlines[] = {16, 9, 15, 29, 27, 31};
 		
+//		int profits[] = {400, 3200, 200, 200};
+//		int days[] = {5, 20, 2, 5};
+//		int deadlines[] = {15, 29, 27, 9};
+		
+//		int profits[] = {800, 800, 2000};
+//		int days[] = {4, 4, 1};
+//		int deadlines[] = {15, 19, 32};
+		
 		for(int i = 0; i < profits.length; i++) {
 			Job job = new Job(profits[i], days[i], deadlines[i]);
-			jobs.offer(job);
+			jobs.add(job);
 		}
 		
 		return jobs;

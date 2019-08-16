@@ -1,6 +1,7 @@
 
 public class DayList extends AbstractDayList{
 	private Day[] days;
+	private int size;
 	
 	public DayList(int size) {
 		days = new Day[size];
@@ -8,6 +9,7 @@ public class DayList extends AbstractDayList{
 			Day day = new Day(i);
 			days[i] = day;
 		}
+		this.size = size;
 	}
 	
 	public int getNumAvailableDays() {
@@ -22,25 +24,7 @@ public class DayList extends AbstractDayList{
 		
 		return count;
 	}
-	
-//	public void assignJob(Job job) {
-//		Day startDay = null;
-//		for(Day day:days) {
-//			if(day.getAvailability()) {
-//				startDay = day;
-//				break;
-//			}
-//		}
-//		
-//		if(startDay != null) {
-//			for (int i = startDay.getIndex(); i < startDay.getIndex() + job.getDuration(); i++) {
-//				if(job.getDeadline() >= startDay.getIndex() + job.getDuration())
-//					days[i].assignJob(job);
-//			}
-//		}
-//		
-//	}
-	
+
 	public void assignJob(Job job) {
 		Day endDay = null;
 		for(int i = days.length - 1; i >= 0; i--) {
@@ -52,9 +36,10 @@ public class DayList extends AbstractDayList{
 		}
 		
 		if(endDay != null) {
+
 			int startDay = endDay.getIndex() - job.getDuration();
 
-			if (startDay > 0) {
+			if (startDay >= 0) {
 				for (int i = endDay.getIndex(); i > startDay; i--) {
 					days[i].assignJob(job);
 				}
@@ -63,16 +48,6 @@ public class DayList extends AbstractDayList{
 		}
 		
 	}
-	
-//	public void assignJob(Job job) {
-//	int startDay = job.getDeadline() - job.getDuration();
-//	
-//	for (int i = startDay; i < startDay + job.getDuration(); i++) {
-//		if(job.getDeadline() >= startDay + job.getDuration())
-//			days[i].assignJob(job);
-//	}
-//	
-//}
 	
 	public String getSchedule() {
 		String schedule = "";
@@ -94,4 +69,69 @@ public class DayList extends AbstractDayList{
 		
 		return totalProfit;
 	}
+
+	@Override
+	public void add(int index, Day day) {
+		ensureCapacity();
+		
+		// Move the elements to the right after the specified index
+		for (int i = size - 1; i >= index; i--)
+			days[i + 1] = days[i];
+		
+		// Insert new element to data[index]
+		days[index] = day;
+		
+		// Increase size by 1
+		size++;
+		
+	}
+
+	private void ensureCapacity() {
+		if (size >= days.length) {
+			Day[] newData = (Day[])(new Object[size * 2 + 1]);
+			System.arraycopy(days, 0, newData, 0, size);
+			days = newData;
+	 }
+	}
+
+	@Override
+	public void clear() {
+		days = new Day[size];
+		for(int i = 0; i < size; i++) {
+			Day day = new Day(i);
+			days[i] = day;
+		}
+		
+	}
+
+	@Override
+	public boolean contains(Day day) {
+		for (int i = 0; i < size; i++)
+			 if (day.equals(days[i])) 
+				 return true;
+		return false;
+	}
+
+	@Override
+	public Day get(int index) {
+		return days[index];
+	}
+
+	@Override
+	public int indexOf(Day day) {
+		for (int i = 0; i < size; i++)
+			 if (day.equals(days[i])) 
+				 return i;
+		return -1;
+	}
+
+	@Override
+	public int lastIndexOf(Day day) {
+		for (int i = size - 1; i >= 0; i--)
+			 if (day.equals(days[i])) 
+				 return i;
+		return -1;
+	}
+
+
 }

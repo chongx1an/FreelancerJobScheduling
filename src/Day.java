@@ -27,8 +27,8 @@ public class Day {
 	
 	public String toString() {
 		if (jobAssigned != null)
-			return index + ": " + jobAssigned.toString();
+			return String.format("%2d: %-35s", index, jobAssigned.toString());
 		else
-			return index + ": I have no job";
+			return String.format("%2d: %-10s", index, "Rest day");
 	}
 }
